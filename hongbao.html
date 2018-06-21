@@ -105,12 +105,12 @@
         }
         .pop-window{
             flex-grow: 8;
-            height: 55%;
+            height: 60%;
             transform: rotate(0deg);
             align-self: center;
             background-color: white;
             border-radius: 7px;
-            animation-duration:  450ms;
+            animation-duration:  280ms;
             animation-fill-mode: forwards;
             animation-timing-function:   cubic-bezier(0.175, 0.885, 0.32, 1.275);;
             position: relative;
@@ -118,6 +118,10 @@
         }
         .pop-in {
             animation-name: pop-in;
+        }
+        .pop-out{
+
+            animation-name: pop-out;
         }
         .btn-pop-close{
             transition: .1s;
@@ -171,7 +175,7 @@
 </div>
 <div class="pop-window-container hide">
     <div style="flex-grow: 1"></div>
-    <div class="pop-window">
+    <div class="pop-window" data-state ="close">
         <div class="btn-pop-close"><svg  style="    vertical-align: middle;" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
             <path fill="none" d="M0 0h24v24H0z"/>
             <path fill="#ffffff" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
@@ -184,7 +188,13 @@
     var nameDom = [
         document.getElementsByTagName("span")[1],
         document.getElementsByTagName("span")[2]
-    ]
+    ];
+    document.getElementsByClassName("pop-window")[0].addEventListener("animationend",function () {
+        if(this.dataset.state == "close") {
+            document.getElementsByClassName("pop-window-container")[0].classList.add("hide");
+            this.classList.remove("pop-out");
+        }
+    })
     function getNameCount() {
         return Math.round(Math.random()*1)+1;
     }
@@ -232,8 +242,19 @@
             //pop in
             document.getElementsByClassName("pop-window-container")[0].classList.remove("hide");
             document.getElementsByClassName("pop-window")[0].classList.add("pop-in");
+            document.getElementsByClassName("pop-window")[0].dataset.state = "open";
+            document.getElementsByClassName("container")[0].classList.add("blur");
 
         }, false);
+        document.getElementsByClassName("btn-pop-close")[0].addEventListener('click', function () {
+            var dom = document.getElementsByClassName("pop-window");
+            dom[0].classList.remove("pop-in");
+            dom[0].classList.add("pop-out");
+            document.getElementsByClassName("pop-window")[0].dataset.state = "close";
+            document.getElementsByClassName("container")[0].classList.remove("blur");
+
+        },false);
+
         nameDom.forEach(function (k,i) {
 console.log(i);
             nameDom[i].addEventListener("animationend",function () {
@@ -243,6 +264,7 @@ console.log(i);
                 }
             })
         })
+        
 
         var nowShowIndex = 0;
         var nowHideIndex = 1;
