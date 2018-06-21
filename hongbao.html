@@ -84,9 +84,18 @@
                 transform: translateY(-50px);
             }
         }
+        .hideText
+        {
+            text-indent:-9999px;
+            display:block;
+            position: absolute;
+            left: -9999px;
+        }
     </style>
 </head>
 <body onselectstart="return false">
+<span class="hideText" id="hongbao">L8V0oF37Im
+    </span>
 <div class="container">
     <div class ="content">
     </div>
@@ -100,8 +109,8 @@
 </div>
 <script>
     var nameDom = [
-        document.getElementsByTagName("span")[0],
-        document.getElementsByTagName("span")[1]
+        document.getElementsByTagName("span")[1],
+        document.getElementsByTagName("span")[2]
     ]
     function getNameCount() {
         return Math.round(Math.random()*1)+1;
@@ -129,8 +138,17 @@
         nameDom[index].style.animationName = "hide";
 
     }
+    function copyArticle(event) {
+        const range = document.createRange();
+        range.selectNode(document.getElementById('hongbao'));
 
+        const selection = window.getSelection();
+        if(selection.rangeCount > 0) selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+    }
     (function () {
+        document.getElementById("btn-get").addEventListener('click', copyArticle, false);
         nameDom.forEach(function (k,i) {
 console.log(i);
             nameDom[i].addEventListener("animationend",function () {
