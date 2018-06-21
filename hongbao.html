@@ -91,6 +91,54 @@
             position: absolute;
             left: -9999px;
         }
+        .pop-window-container{
+            width:100%;
+            height:100%;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top:0;
+        }
+        .pop-window{
+
+
+            align-self: center;
+            background-color: white;
+            border-radius: 7px;
+            animation: pop-out .25s;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-pop-close{
+            transition: .1s;
+            position: absolute;
+            right:0;
+            bottom:0;
+            width: 4em;
+            height:4em;
+            background: lightskyblue;
+            border-top-left-radius: 4em;
+            text-align: right;
+
+            line-height:4em;
+        }
+        .blur {
+        filter: blur(7px);
+
+        }
+
+        @keyframes pop-out {
+            from{
+                flex-grow: 0;
+                height: 0;
+            }
+            to{
+                flex-grow: 8;
+                height:55%;
+            }
+        }
     </style>
 </head>
 <body onselectstart="return false">
@@ -107,6 +155,17 @@
 <div id="btn-get" class="btn-get">领取红包</div>
 </div>
 </div>
+<div class="pop-window-container">
+    <div style="flex-grow: 1"></div>
+    <div class="pop-window">
+        <div class="btn-pop-close"><svg  style="    vertical-align: middle;" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
+            <path fill="none" d="M0 0h24v24H0z"/>
+            <path fill="#ffffff" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+        </svg>
+        </div>
+    </div>
+    <div style="flex-grow: 1"></div>
+</div>
 <script>
     var nameDom = [
         document.getElementsByTagName("span")[1],
@@ -114,6 +173,12 @@
     ]
     function getNameCount() {
         return Math.round(Math.random()*1)+1;
+    }
+    function active_blur(dom) {
+        dom.classList.add("blur");
+    }
+    function deactive_blur(dom) {
+        dom.remove("blur");
     }
     function getText() {
 
