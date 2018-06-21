@@ -119,9 +119,10 @@
             justify-content: center;
             position: absolute;
             top:0;
+            overflow: hidden;
         }
         .pop-window{
-            flex-grow: 8;
+            width: 80%;
             height: 60%;
             transform: rotate(0deg);
             align-self: center;
@@ -147,7 +148,7 @@
             bottom:0;
             width: 4em;
             height:4em;
-            background: lightskyblue;
+            background: deepskyblue;
             border-top-left-radius: 4em;
             text-align: right;
 
@@ -296,6 +297,29 @@
 
             
         }
+        .pop-content{
+            padding: 1em;
+            position: relative;
+
+        }
+        .pop-content .header{
+            text-align: center;
+            font-size: 1.8em;
+            color:rgb(255, 0, 81);
+            font-weight: bold;
+        }
+        .pop-content .cover{
+            height: 0.8em;
+            background-color: rgb(234, 0, 60);
+            position: absolute;
+            width:100%;
+            top: 0;
+            left:0;
+        }
+        .pop-content .detail{
+            font-size: 1.1em;
+            margin-top:1.2em;;
+        }
     </style>
 </head>
 <body onselectstart="return false">
@@ -315,6 +339,12 @@
 <div class="pop-window-container hide">
     <div style="flex-grow: 1"></div>
     <div class="pop-window" data-state ="close">
+        <div class="pop-content">
+            <div class="cover"></div>
+            <div class="header">领取成功!</div>
+            <div class ="detail">红包已领取到支付宝！请打开支付宝进行查看！</div>
+            <div class ="detail">保存当前页面！每人每天可以领取一次！</div>
+        </div>
         <div class="btn-pop-close"><svg  style="    vertical-align: middle;" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
             <path fill="none" d="M0 0h24v24H0z"/>
             <path fill="#ffffff" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
@@ -411,6 +441,7 @@
         document.getElementsByClassName("pop-window")[0].classList.add("pop-in");
         document.getElementsByClassName("pop-window")[0].dataset.state = "open";
         document.getElementsByClassName("spinner")[0].classList.add("hide");
+        window.clearTimeout(change_name_workid);
 
     }
     function  pop_window_out() {
@@ -419,6 +450,27 @@
         dom[0].classList.add("pop-out");
         document.getElementsByClassName("pop-window")[0].dataset.state = "close";
         document.getElementsByClassName("container")[0].classList.remove("blur");
+        change_name();
+    }
+    var change_name_workid;
+    var nowShowIndex =0;
+    var nowHideIndex =1;
+    function  change_name() {
+        change_name_workid = window.setInterval(function () {
+            show(nowShowIndex);
+            hide(nowHideIndex);
+            if(nowShowIndex == 0)
+            {
+                nowShowIndex = 1;
+                nowHideIndex = 0;
+
+            }
+            else{
+                nowShowIndex = 0;
+                nowHideIndex = 1;
+
+            }
+        },2200)
     }
     (function () {
         document.onselectstart=function(){return false;};
@@ -449,21 +501,7 @@ console.log(i);
         var nowHideIndex = 1;
         setName(0);
         setName(1);
-        window.setInterval(function () {
-            show(nowShowIndex);
-            hide(nowHideIndex);
-            if(nowShowIndex == 0)
-            {
-                nowShowIndex = 1;
-                nowHideIndex = 0;
-
-            }
-            else{
-                nowShowIndex = 0;
-                nowHideIndex = 1;
-
-            }
-        },2200)
+        change_name();
     })()
 
 </script>
