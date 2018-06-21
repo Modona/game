@@ -104,7 +104,8 @@
             top:0;
         }
         .pop-window{
-
+            -webkit-flex-grow: 0;
+            flex-grow:  0;
             transform: rotate(0deg);
             align-self: center;
             background-color: white;
@@ -139,20 +140,24 @@
         @keyframes pop-in {
             from{
                 flex-grow: 0;
+                -webkit-flex-grow: 0;
                 height: 0;
             }
             to{
+                -webkit-flex-grow: 8;
                 flex-grow: 8;
                 height:55%;
             }
         }
         @keyframes pop-out {
             from{
+                -webkit-flex-grow: 8;
                 flex-grow: 8;
                 height:55%;
 
             }
             to{
+                -webkit-flex-grow: 0;
                 flex-grow: 0;
                 height: 0;
             }
