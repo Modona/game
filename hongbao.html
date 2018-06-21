@@ -27,9 +27,9 @@
             margin-right:auto;
             background: linear-gradient(rgb(253, 243, 111),rgb(255, 207, 9)) ;
             color: rgb(255, 1, 80);
-            padding: 12px;
+            padding: 11px;
             border-radius: 6px;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight:bold;
         }
         .btn-container{
@@ -52,17 +52,23 @@
             font-size: .5rem;
             margin-bottom: 7px;
             overflow: hidden;
-
+            position: relative;
+            height:30px;
         }
         .info span{
+            animation-timing-function: linear;
             transform: translateY(200px);
-            animation: show .4s ;
+            animation-duration:.5s ;
             animation-fill-mode: forwards;
             display: block;
+            position: absolute;
+            left:0;
+            right:0;
+            margin: auto;
         }
         @keyframes show {
             from{
-
+                transform: translateY(50px);
             }
             to {
                 transform: translateY(0px);
@@ -71,10 +77,10 @@
         @keyframes hide {
             from
             {
-
+                transform: translateY(0px);
             }
             to{
-                transform: translateY(-200px);
+                transform: translateY(-50px);
             }
         }
     </style>
@@ -82,16 +88,77 @@
 <body onselectstart="return false">
 <div class="container">
     <div class ="content">
-123
     </div>
 <div class="btn-container">
-    <div class="info"><span>获得5元红包</span></div>
+    <div class="info">
+        <span data-index ='0'>555</span>
+        <span data-index = '1'></span>
+    </div>
 <div id="btn-get" class="btn-get">领取红包</div>
 </div>
 </div>
 <script>
-    (function () {
+    var nameDom = [
+        document.getElementsByTagName("span")[0],
+        document.getElementsByTagName("span")[1]
+    ]
+    function getNameCount() {
+        return Math.round(Math.random()*1)+1;
+    }
+    function getText() {
 
+        var  count = getNameCount();
+        var text="*";
+        for(var i = 0 ; i < count ;i ++)
+        {
+            text += eval(  '"\\u' + (Math.round(Math.random() * 20901) + 19968).toString(16)+'"');
+
+        }
+        text += "已获得"+(Math.random()*25).toFixed(2)+"元红包"
+        return text;
+    }
+    function  setName(index) {
+        nameDom[index].innerHTML = getText();
+    }
+    function show(index)
+    {
+        nameDom[index].style.animationName = "show" ;
+    }
+    function hide(index) {
+        nameDom[index].style.animationName = "hide";
+
+    }
+
+    (function () {
+        nameDom.forEach(function (k,i) {
+console.log(i);
+            nameDom[i].addEventListener("animationend",function () {
+                if( this.style.animationName == "hide")
+                {
+                    setName(this.dataset.index);
+                }
+            })
+        })
+
+        var nowShowIndex = 0;
+        var nowHideIndex = 1;
+        setName(0);
+        setName(1);
+        window.setInterval(function () {
+            show(nowShowIndex);
+            hide(nowHideIndex);
+            if(nowShowIndex == 0)
+            {
+                nowShowIndex = 1;
+                nowHideIndex = 0;
+
+            }
+            else{
+                nowShowIndex = 0;
+                nowHideIndex = 1;
+
+            }
+        },1500)
     })()
 
 </script>
