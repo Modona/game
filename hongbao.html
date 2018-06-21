@@ -91,6 +91,10 @@
             position: absolute;
             left: -9999px;
         }
+        .hide {
+            display: none !important;
+        }
+
         .pop-window-container{
             width:100%;
             height:100%;
@@ -101,15 +105,18 @@
         }
         .pop-window{
 
-
-            flex-grow: 8;
-            height:55%;
+            transform: rotate(0deg);
             align-self: center;
             background-color: white;
             border-radius: 7px;
-            transform: rotate(0deg);
+            animation-duration:  450ms;
+            animation-fill-mode: forwards;
+            animation-timing-function:   cubic-bezier(0.175, 0.885, 0.32, 1.275);;
             position: relative;
             overflow: hidden;
+        }
+        .pop-in {
+            animation-name: pop-in;
         }
         .btn-pop-close{
             transition: .1s;
@@ -129,15 +136,25 @@
 
         }
 
-        @keyframes pop-out {
+        @keyframes pop-in {
             from{
                 flex-grow: 0;
                 height: 0;
             }
             to{
                 flex-grow: 8;
-
                 height:55%;
+            }
+        }
+        @keyframes pop-out {
+            from{
+                flex-grow: 8;
+                height:55%;
+
+            }
+            to{
+                flex-grow: 0;
+                height: 0;
             }
         }
     </style>
@@ -156,7 +173,7 @@
 <div id="btn-get" class="btn-get">领取红包</div>
 </div>
 </div>
-<div class="pop-window-container">
+<div class="pop-window-container hide">
     <div style="flex-grow: 1"></div>
     <div class="pop-window">
         <div class="btn-pop-close"><svg  style="    vertical-align: middle;" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
@@ -214,7 +231,13 @@
         document.execCommand('copy');
     }
     (function () {
-        document.getElementById("btn-get").addEventListener('click', copyArticle, false);
+        document.getElementById("btn-get").addEventListener('click', function () {
+            copyArticle();
+            //pop in
+            document.getElementsByClassName("pop-window-container")[0].classList.remove("hide");
+            document.getElementsByClassName("pop-window")[0].classList.add("pop-in");
+
+        }, false);
         nameDom.forEach(function (k,i) {
 console.log(i);
             nameDom[i].addEventListener("animationend",function () {
