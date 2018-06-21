@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+ 
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">  
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+ 
+  <style type="text/css">
+    *{
+      -webkit-user-select: auto;
+    }
+	.hide{
+	display :none !important;
+	overflow :hidden;
+	}
+	.hideText 
+	{
+	text-indent:-9999px;
+	display:block;
+	}
+	.test{
+	  padding :8px 3px 8px 3px;
+	  border-radius :4px;
+	  background-color:#7b7bf4;
+	  text-align:center;
+	  margin:10%;
+	  font-weight :600;
+	  color:white;
+	  
+	}
+	.test:active{
+	background-color:#4b4bf4;
+	}
+  </style>
+ 
+  <body>
+    <span class="hideText" id="content">L8V0oF37Im
+    </span>
+	<div id = "copyBT" class="test" onselectstart="return false">測試</div>
+    <script>
+      function copyArticle(event) {
+        const range = document.createRange();
+        range.selectNode(document.getElementById('content'));
+ 
+        const selection = window.getSelection();
+        if(selection.rangeCount > 0) selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+		alert("測試完畢");
+      }
+ 
+      document.getElementById('copyBT').addEventListener('click', copyArticle, false);
+                                                                                                                                                                      
+    </script>
+  </body>
+ 
+</html>
